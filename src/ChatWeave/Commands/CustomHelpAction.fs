@@ -9,6 +9,7 @@ type CustomHelpAction(defaultHelp: HelpAction) =
     inherit SynchronousCommandLineAction()
 
     override _.Invoke(parseResult: ParseResult) =
+
         let root = parseResult.CommandResult.Command :?> RootCommand
         let out = Console.Out
 
@@ -18,8 +19,17 @@ type CustomHelpAction(defaultHelp: HelpAction) =
 
         if not (Seq.isEmpty root.Subcommands) then
             out.WriteLine("Available Commands:")
+
             for sub in root.Subcommands do
-                out.WriteLine($"  {sub.Name,-12}  {sub.Description}")
+                let usageHint =
+                    match sub.Name with
+                    | "add" -> "-t <TEXT> -g <TAG>"
+                    | "recall" -> "<ID>"
+                    | _ -> ""
+
+                let padded = $"{sub.Name,-12}  {sub.Description}"
+                let line = if usageHint <> "" then $"{padded}  {usageHint}" else padded
+                out.WriteLine($"  {line}")
             out.WriteLine()
 
         if not (Seq.isEmpty root.Options) then
@@ -33,19 +43,14 @@ type CustomHelpAction(defaultHelp: HelpAction) =
             out.WriteLine("Examples:")
 
             for cmd in root.Subcommands do
-                let cmdName = cmd.Name
-                let opts =
-                    cmd.Options
-                    |> Seq.map (fun opt ->
-                        let firstAlias =
-                            opt.Aliases |> Seq.tryHead |> Option.defaultValue $"--{opt.Name}"
-                        let placeholder =
-                            if opt.HelpName <> null then $"<{opt.HelpName}>" else "<value>"
-                        $"{firstAlias} {placeholder}")
-                    |> String.concat " "
+                let example =
+                    match cmd.Name with
+                    | "add" -> $"{root.Name} add -t \"Schedule sync-up with Kevin\" -g planning,team"
+                    | "recall" -> $"{root.Name} recall 1234abc"
+                    | "list" -> $"{root.Name} list"
+                    | _ -> $"{root.Name} {cmd.Name}"
 
-                out.WriteLine($"  {root.Name} {cmdName} {opts}")
-
+                out.WriteLine($"  {example}")
             out.WriteLine()
 
         0
