@@ -10,8 +10,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands/AddCommand.fs" />
-    <Compile Include="Commands/RecallCommand.fs" />
+    <Compile Include="Commands/AutoName.fs" />
+    <Compile Include="Commands/CustomHelpAction.fs" />
     <Compile Include="Commands/ListCommand.fs" />
+    <Compile Include="Commands/RecallCommand.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>
