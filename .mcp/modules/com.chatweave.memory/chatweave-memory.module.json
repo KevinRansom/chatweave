@@ -1,0 +1,30 @@
+{
+  "id": "com.chatweave.memory",
+  "version": "1.0.0",
+  "name": "ChatWeave Memory Module",
+  "entrypoint": "ChatWeave.MCP.MemoryModule, ChatWeave.MCP",
+  "commands": [{
+    "name": "recall_memory",
+    "description": "Retrieve context summary by query.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" }
+      },
+      "required": ["query"]
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string" },
+        "confidence": { "type": ["number", "null"] },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["summary"]
+    }
+  }],
+  "schema_version": "1.0"
+}

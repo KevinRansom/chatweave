@@ -1,0 +1,8 @@
+# Explicitly unformatted directories
+bin/
+obj/
+Planning/
+Tests/
+
+# files
+#src/Compiler/Checking/AccessibilityLogic.fs
