@@ -19,4 +19,18 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ChatWeave\ChatWeave.fsproj" />
+  </ItemGroup>
+
+  <!-- Add this inside your <Project> ... </Project> in tests\ChatWeave.Tests\ChatWeave.Tests.fsproj -->
+  <Target Name="CopyChatWeaveOutput" AfterTargets="Build">
+    <ItemGroup>
+      <ChatWeaveOutputFiles Include="..\..\src\ChatWeave\bin\$(Configuration)\net9.0\**\*.*" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(ChatWeaveOutputFiles)"
+      DestinationFolder="$(OutDir)"
+      SkipUnchangedFiles="true" />
+  </Target>
 </Project>
