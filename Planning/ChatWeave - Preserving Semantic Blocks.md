@@ -46,7 +46,33 @@ These signals collectively define whether a block should be recap’d **as-is** or
 
 ---
 
-### 2. Recap Artifact Augmentation
+### 2. Prompt Formation Cues for Block Relationship Inference
+
+To support automated detection of semantically related blocks without overburdening the user, recognize patterns in the prompt structure itself:
+
+#### Co-analysis Framing
+Prompt phrases that imply shared analysis can flag blocks for unified recap:
+> “Let’s break down the following algorithm...”  
+> “Here’s the poem we’re interpreting together.”
+
+#### Continuity Handoff
+Sequential exchanges that build on a previous excerpt suggest contextual linkage:
+> User: “Take a look at this code.”  
+> Agent: “This code implements anchor decay logic…”
+
+#### Nested Scoping Prompts
+Scaffolded phrasing helps boundary detection:
+> “The core discussion starts below…”  
+> “End of excerpt.”
+
+#### Referential Tags
+Reusing phrases like “this snippet,” “the excerpt above,” or “that block” implies cohesion and relevance continuity.
+
+These prompt formations may be used to adjust recap scoring weights, enabling block-level retention even in free-form dialog.
+
+---
+
+### 3. Recap Artifact Augmentation
 
 Extend recap schema to support verbatim block retention:
 
